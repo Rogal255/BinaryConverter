@@ -3,7 +3,7 @@
 
 cmake_minimum_required(VERSION 3.21)
 
-project(wxTemplate)
+project(BinaryConverter)
 
 #Source files list (cpp only)
 set(SRC_FILES App.cpp Frame.cpp)
@@ -13,7 +13,7 @@ set(LIBS wxbase wxcore)
 
 #wxWidgets config
 #On Linux watch CMake output for possible lack of not required dependencies
-set(wxBUILD_SHARED ON CACHE BOOL "Build wx libraries as shared libs")
+set(wxBUILD_SHARED OFF CACHE BOOL "Build wx libraries as shared libs")
 set(wxBUILD_PRECOMP OFF CACHE BOOL "Use precompiled headers")
 set(wxBUILD_MONOLITHIC OFF CACHE BOOL "Build a single library")
 set(wxUSE_STL ON)
