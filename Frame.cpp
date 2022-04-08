@@ -15,10 +15,11 @@ Frame::Frame() :
             wxDefaultPosition,
             wxDefaultSize,
             wxDEFAULT_FRAME_STYLE /*& ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)*/) {
-    this->InitUI();
+    this->initUi();
+    Bind(wxEVT_RADIOBUTTON, &Frame::onBaseChanged, this, IDRadioButton_Dec, IDRadioButton_Hex);
 }
 
-void Frame::InitUI() {
+void Frame::initUi() {
     constexpr int defaultPadding {10};
 
     auto* inputResultSizer = new wxBoxSizer(wxVERTICAL);
@@ -36,6 +37,8 @@ void Frame::InitUI() {
     baseSelectionBox_->Add(RButtonDec_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
     baseSelectionBox_->Add(RButtonBin_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
     baseSelectionBox_->Add(RButtonHex_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
+    RButtonDec_->SetValue(true);
+    decSelected();
     auto* baseSelectionAndButtonsSizer = new wxBoxSizer(wxHORIZONTAL);
     baseSelectionAndButtonsSizer->Add(baseSelectionBox_, 1, wxEXPAND | wxALL, defaultPadding);
     baseSelectionAndButtonsSizer->Add(saveClearSizer, 1, wxEXPAND | wxALL, defaultPadding);
@@ -75,6 +78,85 @@ void Frame::InitUI() {
     listResult_->InsertItem(0, "123");
     listResult_->SetItem(0, 1, "0b1111011");
     listResult_->SetItem(0, 2, "0x7B");
+}
+
+void Frame::onBaseChanged(wxCommandEvent& evt) {
+    switch (evt.GetId()) {
+    case IDRadioButton_Dec:
+        decSelected();
+        break;
+    case IDRadioButton_Bin:
+        binSelected();
+        break;
+    case IDRadioButton_Hex:
+        hexSelected();
+        break;
+    default:
+        wxMessageBox("Radio button error");
+        break;
+    }
+}
+
+void Frame::decSelected() {
+    button0_->Enable();
+    button1_->Enable();
+    button2_->Enable();
+    button3_->Enable();
+    button4_->Enable();
+    button5_->Enable();
+    button6_->Enable();
+    button7_->Enable();
+    button8_->Enable();
+    button9_->Enable();
+    buttonA_->Enable(false);
+    buttonB_->Enable(false);
+    buttonC_->Enable(false);
+    buttonD_->Enable(false);
+    buttonE_->Enable(false);
+    buttonF_->Enable(false);
+    resultLabel1_->SetLabel("BIN");
+    resultLabel2_->SetLabel("HEX");
+}
+
+void Frame::binSelected() {
+    button0_->Enable();
+    button1_->Enable();
+    button2_->Enable(false);
+    button3_->Enable(false);
+    button4_->Enable(false);
+    button5_->Enable(false);
+    button6_->Enable(false);
+    button7_->Enable(false);
+    button8_->Enable(false);
+    button9_->Enable(false);
+    buttonA_->Enable(false);
+    buttonB_->Enable(false);
+    buttonC_->Enable(false);
+    buttonD_->Enable(false);
+    buttonE_->Enable(false);
+    buttonF_->Enable(false);
+    resultLabel1_->SetLabel("DEC");
+    resultLabel2_->SetLabel("HEX");
+}
+void Frame::hexSelected() {
+    button0_->Enable();
+    button1_->Enable();
+    button2_->Enable();
+    button3_->Enable();
+    button4_->Enable();
+    button5_->Enable();
+    button6_->Enable();
+    button7_->Enable();
+    button8_->Enable();
+    button9_->Enable();
+    buttonA_->Enable();
+    buttonB_->Enable();
+    buttonC_->Enable();
+    buttonD_->Enable();
+    buttonE_->Enable();
+    buttonF_->Enable();
+    resultLabel1_->SetLabel("DEC");
+    resultLabel2_->SetLabel("BIN");
 }
 
 #pragma clang diagnostic pop

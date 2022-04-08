@@ -10,7 +10,7 @@ public:
     Frame();
 
 private:
-    void InitUI();
+    void initUi();
     wxStaticBoxSizer* resultBox_ = new wxStaticBoxSizer(wxHORIZONTAL, this, "Results");
     wxStaticText* resultLabel1_ {new wxStaticText(resultBox_->GetStaticBox(), wxID_ANY, "DEC")};
     wxStaticText* resultLabel2_ {new wxStaticText(resultBox_->GetStaticBox(), wxID_ANY, "HEX")};
@@ -43,4 +43,10 @@ private:
     wxButton* buttonF_ {new wxButton(this, IDButton_F, "F", wxDefaultPosition, wxSize(50, 50))};
 
     wxListView* listResult_ {new wxListView(this, IDListResult)};
+
+    void onBaseChanged(wxCommandEvent &evt);
+
+    void decSelected();
+    void binSelected();
+    void hexSelected();
 };
