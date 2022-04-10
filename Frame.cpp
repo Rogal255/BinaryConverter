@@ -4,6 +4,7 @@
 #pragma ide diagnostic ignored "bugprone-suspicious-enum-usage"
 
 #include "Frame.hpp"
+#include <sstream>
 #include <string>
 #include <wx/listctrl.h>
 #include <wx/wx.h>
@@ -19,6 +20,7 @@ Frame::Frame() :
     Bind(wxEVT_RADIOBUTTON, &Frame::onBaseChanged, this, IDRadioButton_Dec, IDRadioButton_Hex);
     Bind(wxEVT_BUTTON, &Frame::onButtonPressed, this, IDButton_0, IDButton_F);
     Bind(wxEVT_BUTTON, &Frame::onClearButtonPressed, this, IDButton_Clear);
+    Bind(wxEVT_SIZE, &Frame::onResize, this);
 }
 
 void Frame::initUi() {
@@ -62,7 +64,6 @@ void Frame::initUi() {
     buttonSizer->Add(button2_, 0, wxEXPAND | wxALL, defaultPadding);
     buttonSizer->Add(button3_, 0, wxEXPAND | wxALL, defaultPadding);
 
-    auto* resultsSizer = new wxBoxSizer(wxHORIZONTAL);
     resultsSizer->Add(listResult_, 1, wxEXPAND | wxALL, defaultPadding);
 
     auto* mainSizer = new wxBoxSizer(wxVERTICAL);
@@ -141,6 +142,14 @@ void Frame::onButtonPressed(wxCommandEvent& evt) {
 }
 
 void Frame::onClearButtonPressed(wxCommandEvent& evt) { reset(); }
+
+void Frame::onResize(wxSizeEvent& evt) {
+    int listResultWidth {resultsSizer->GetSize().GetWidth() - 2 * 10};
+    listResult_->SetColumnWidth(0, (listResultWidth / 3) - 40);
+    listResult_->SetColumnWidth(1, (listResultWidth / 3) + 80);
+    listResult_->SetColumnWidth(2, (listResultWidth / 3) - 40);
+    evt.Skip();
+}
 
 void Frame::decSelected() {
     button0_->Enable();

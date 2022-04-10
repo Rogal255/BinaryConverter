@@ -44,6 +44,7 @@ private:
     wxButton* buttonE_ {new wxButton(this, IDButton_E, "E", wxDefaultPosition, wxSize(50, 50))};
     wxButton* buttonF_ {new wxButton(this, IDButton_F, "F", wxDefaultPosition, wxSize(50, 50))};
 
+    wxBoxSizer* resultsSizer = new wxBoxSizer(wxHORIZONTAL);
     wxListView* listResult_ {new wxListView(this, IDListResult)};
 
     std::string inputStr_;
@@ -53,6 +54,7 @@ private:
     void onBaseChanged(wxCommandEvent& evt);
     void onButtonPressed(wxCommandEvent& evt);
     void onClearButtonPressed(wxCommandEvent& evt);
+    void onResize(wxSizeEvent& evt);
 
     void decSelected();
     void binSelected();
