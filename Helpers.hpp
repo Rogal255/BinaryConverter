@@ -1,6 +1,10 @@
 #pragma once
 #include <wx/wx.h>
 
+constexpr char decPrefix[] {""};
+constexpr char binPrefix[] {"0b"};
+constexpr char hexPrefix[] {"0x"};
+
 enum myID {
     IDRadioButton_Dec = wxID_LAST + 1,
     IDRadioButton_Bin,

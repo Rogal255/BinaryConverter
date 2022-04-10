@@ -1,6 +1,6 @@
 #pragma once
 #include "Helpers.hpp"
-#include <array>
+#include <string>
 #include <wx/listctrl.h>
 #include <wx/radiobut.h>
 #include <wx/wx.h>
@@ -11,6 +11,8 @@ public:
 
 private:
     void initUi();
+    wxTextCtrl* inputTextCtrl_
+        = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_RIGHT);
     wxStaticBoxSizer* resultBox_ = new wxStaticBoxSizer(wxHORIZONTAL, this, "Results");
     wxStaticText* resultLabel1_ {new wxStaticText(resultBox_->GetStaticBox(), wxID_ANY, "DEC")};
     wxStaticText* resultLabel2_ {new wxStaticText(resultBox_->GetStaticBox(), wxID_ANY, "HEX")};
@@ -44,9 +46,16 @@ private:
 
     wxListView* listResult_ {new wxListView(this, IDListResult)};
 
-    void onBaseChanged(wxCommandEvent &evt);
+    std::string inputStr_;
+    std::string resultStr1_;
+    std::string resultStr2_;
+
+    void onBaseChanged(wxCommandEvent& evt);
+    void onButtonPressed(wxCommandEvent& evt);
+    void onClearButtonPressed(wxCommandEvent& evt);
 
     void decSelected();
     void binSelected();
     void hexSelected();
+    void reset();
 };
