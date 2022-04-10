@@ -11,6 +11,7 @@ public:
 
 private:
     void initUi();
+    const int defaultPadding {10};
     wxTextCtrl* inputTextCtrl_
         = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_RIGHT);
     wxStaticBoxSizer* resultBox_ = new wxStaticBoxSizer(wxHORIZONTAL, this, "Results");

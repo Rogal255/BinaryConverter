@@ -15,7 +15,7 @@ Frame::Frame() :
             "Binary converter",
             wxDefaultPosition,
             wxDefaultSize,
-            wxDEFAULT_FRAME_STYLE /*& ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)*/) {
+            wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX)) {
     this->initUi();
     Bind(wxEVT_RADIOBUTTON, &Frame::onBaseChanged, this, IDRadioButton_Dec, IDRadioButton_Hex);
     Bind(wxEVT_BUTTON, &Frame::onButtonPressed, this, IDButton_0, IDButton_F);
@@ -24,8 +24,6 @@ Frame::Frame() :
 }
 
 void Frame::initUi() {
-    constexpr int defaultPadding {10};
-
     auto* inputResultSizer = new wxBoxSizer(wxVERTICAL);
     resultBox_->Add(resultLabel1_, 0, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
     resultBox_->Add(result1_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
@@ -144,7 +142,7 @@ void Frame::onButtonPressed(wxCommandEvent& evt) {
 void Frame::onClearButtonPressed(wxCommandEvent& evt) { reset(); }
 
 void Frame::onResize(wxSizeEvent& evt) {
-    int listResultWidth {resultsSizer->GetSize().GetWidth() - 2 * 10};
+    int listResultWidth {resultsSizer->GetSize().GetWidth() - 2 * defaultPadding};
     listResult_->SetColumnWidth(0, (listResultWidth / 3) - 40);
     listResult_->SetColumnWidth(1, (listResultWidth / 3) + 80);
     listResult_->SetColumnWidth(2, (listResultWidth / 3) - 40);
