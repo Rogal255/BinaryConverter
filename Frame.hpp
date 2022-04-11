@@ -10,8 +10,7 @@ public:
     Frame();
 
 private:
-    void initUi();
-    const int defaultPadding {10};
+    const int defaultPadding_ {10};
     wxTextCtrl* inputTextCtrl_
         = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_RIGHT);
     wxStaticBoxSizer* resultBox_ = new wxStaticBoxSizer(wxHORIZONTAL, this, "Results");
@@ -45,7 +44,7 @@ private:
     wxButton* buttonE_ {new wxButton(this, IDButton_E, "E", wxDefaultPosition, wxSize(50, 50))};
     wxButton* buttonF_ {new wxButton(this, IDButton_F, "F", wxDefaultPosition, wxSize(50, 50))};
 
-    wxBoxSizer* resultsSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* resultsSizer_ = new wxBoxSizer(wxHORIZONTAL);
     wxListView* listResult_ {new wxListView(this, IDListResult)};
 
     std::string inputStr_;
@@ -57,6 +56,7 @@ private:
     void onClearButtonPressed(wxCommandEvent& evt);
     void onResize(wxSizeEvent& evt);
 
+    void initUi();
     void decSelected();
     void binSelected();
     void hexSelected();

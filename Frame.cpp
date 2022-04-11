@@ -25,53 +25,53 @@ Frame::Frame() :
 
 void Frame::initUi() {
     auto* inputResultSizer = new wxBoxSizer(wxVERTICAL);
-    resultBox_->Add(resultLabel1_, 0, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
-    resultBox_->Add(result1_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
-    resultBox_->Add(resultLabel2_, 0, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
-    resultBox_->Add(result2_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
-    inputResultSizer->Add(inputTextCtrl_, 1, wxEXPAND | wxALL, defaultPadding);
-    inputResultSizer->Add(resultBox_, 1, wxEXPAND | wxALL, defaultPadding);
+    resultBox_->Add(resultLabel1_, 0, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding_);
+    resultBox_->Add(result1_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding_);
+    resultBox_->Add(resultLabel2_, 0, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding_);
+    resultBox_->Add(result2_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding_);
+    inputResultSizer->Add(inputTextCtrl_, 1, wxEXPAND | wxALL, defaultPadding_);
+    inputResultSizer->Add(resultBox_, 1, wxEXPAND | wxALL, defaultPadding_);
 
     auto* saveClearSizer = new wxBoxSizer(wxVERTICAL);
     saveClearSizer->Add(buttonSave_, 1, wxEXPAND);
     saveClearSizer->Add(buttonClear_, 1, wxEXPAND);
-    baseSelectionBox_->Add(RButtonDec_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
-    baseSelectionBox_->Add(RButtonBin_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
-    baseSelectionBox_->Add(RButtonHex_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding);
+    baseSelectionBox_->Add(RButtonDec_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding_);
+    baseSelectionBox_->Add(RButtonBin_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding_);
+    baseSelectionBox_->Add(RButtonHex_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding_);
     RButtonDec_->SetValue(true);
     decSelected();
     auto* baseSelectionAndButtonsSizer = new wxBoxSizer(wxHORIZONTAL);
-    baseSelectionAndButtonsSizer->Add(baseSelectionBox_, 1, wxEXPAND | wxALL, defaultPadding);
-    baseSelectionAndButtonsSizer->Add(saveClearSizer, 1, wxEXPAND | wxALL, defaultPadding);
+    baseSelectionAndButtonsSizer->Add(baseSelectionBox_, 1, wxEXPAND | wxALL, defaultPadding_);
+    baseSelectionAndButtonsSizer->Add(saveClearSizer, 1, wxEXPAND | wxALL, defaultPadding_);
 
     auto* buttonSizer = new wxGridSizer(4, 4, 0, 0);
-    buttonSizer->Add(buttonC_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(buttonD_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(buttonE_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(buttonF_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(button8_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(button9_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(buttonA_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(buttonB_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(button4_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(button5_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(button6_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(button7_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(button0_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(button1_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(button2_, 0, wxEXPAND | wxALL, defaultPadding);
-    buttonSizer->Add(button3_, 0, wxEXPAND | wxALL, defaultPadding);
+    buttonSizer->Add(buttonC_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(buttonD_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(buttonE_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(buttonF_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(button8_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(button9_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(buttonA_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(buttonB_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(button4_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(button5_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(button6_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(button7_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(button0_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(button1_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(button2_, 0, wxEXPAND | wxALL, defaultPadding_);
+    buttonSizer->Add(button3_, 0, wxEXPAND | wxALL, defaultPadding_);
 
-    resultsSizer->Add(listResult_, 1, wxEXPAND | wxALL, defaultPadding);
+    resultsSizer_->Add(listResult_, 1, wxEXPAND | wxALL, defaultPadding_);
 
     auto* mainSizer = new wxBoxSizer(wxVERTICAL);
     mainSizer->Add(inputResultSizer, 0, wxEXPAND);
     mainSizer->Add(baseSelectionAndButtonsSizer, 0, wxEXPAND);
     mainSizer->Add(buttonSizer, 0, wxEXPAND);
-    mainSizer->Add(resultsSizer, 1, wxEXPAND);
+    mainSizer->Add(resultsSizer_, 1, wxEXPAND);
     this->SetSizerAndFit(mainSizer);
 
-    int listResultWidth {resultsSizer->GetSize().GetWidth() - 2 * defaultPadding};
+    int listResultWidth {resultsSizer_->GetSize().GetWidth() - 2 * defaultPadding_};
     listResult_->AppendColumn("Dec", wxLIST_FORMAT_LEFT, (listResultWidth / 3) - 40);
     listResult_->AppendColumn("Bin", wxLIST_FORMAT_CENTER, (listResultWidth / 3) + 80);
     listResult_->AppendColumn("Hex", wxLIST_FORMAT_RIGHT, (listResultWidth / 3) - 40);
@@ -104,37 +104,11 @@ void Frame::onBaseChanged(wxCommandEvent& evt) {
 }
 
 void Frame::onButtonPressed(wxCommandEvent& evt) {
-    int buttonID {evt.GetId() - IDButton_0};
-    if (buttonID == 0 && (inputStr_ == decPrefix || inputStr_ == binPrefix || inputStr_ == hexPrefix)) {
+    std::string buttonLabel {dynamic_cast<wxButton*>(evt.GetEventObject())->GetLabel()};
+    if (buttonLabel == "0" && (inputStr_ == decPrefix || inputStr_ == binPrefix || inputStr_ == hexPrefix)) {
         return;
     }
-    if (buttonID < 10) {
-        inputStr_.append(std::to_string(buttonID));
-    } else {
-        switch (buttonID) {
-        case 10:
-            inputStr_.append("A");
-            break;
-        case 11:
-            inputStr_.append("B");
-            break;
-        case 12:
-            inputStr_.append("C");
-            break;
-        case 13:
-            inputStr_.append("D");
-            break;
-        case 14:
-            inputStr_.append("E");
-            break;
-        case 15:
-            inputStr_.append("F");
-            break;
-        default:
-            wxMessageBox("Main buttons error");
-            return;
-        }
-    }
+    inputStr_.append(buttonLabel);
     inputTextCtrl_->Clear();
     inputTextCtrl_->AppendText(inputStr_);
 }
@@ -142,7 +116,7 @@ void Frame::onButtonPressed(wxCommandEvent& evt) {
 void Frame::onClearButtonPressed(wxCommandEvent& evt) { reset(); }
 
 void Frame::onResize(wxSizeEvent& evt) {
-    int listResultWidth {resultsSizer->GetSize().GetWidth() - 2 * defaultPadding};
+    int listResultWidth {resultsSizer_->GetSize().GetWidth() - 2 * defaultPadding_};
     listResult_->SetColumnWidth(0, (listResultWidth / 3) - 40);
     listResult_->SetColumnWidth(1, (listResultWidth / 3) + 80);
     listResult_->SetColumnWidth(2, (listResultWidth / 3) - 40);
