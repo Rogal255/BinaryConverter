@@ -1,9 +1,21 @@
 #pragma once
+#include <cstdlib>
 #include <wx/wx.h>
 
 constexpr char decPrefix[] {""};
 constexpr char binPrefix[] {"0b"};
 constexpr char hexPrefix[] {"0x"};
+
+namespace myFunc {
+consteval uint8_t strlen(const char* str) {
+    uint8_t counter {0};
+    while (*str != '\0') {
+        ++counter;
+        ++str;
+    }
+    return counter;
+}
+};
 
 enum myID {
     IDRadioButton_Dec = wxID_LAST + 1,

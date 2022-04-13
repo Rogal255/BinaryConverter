@@ -4,7 +4,6 @@
 #pragma ide diagnostic ignored "bugprone-suspicious-enum-usage"
 
 #include "Frame.hpp"
-#include <sstream>
 #include <string>
 #include <wx/listctrl.h>
 #include <wx/wx.h>
@@ -23,6 +22,10 @@ Frame::Frame() :
     Bind(wxEVT_SIZE, &Frame::onResize, this);
 }
 
+void Frame::setDec(const std::string& dec) { }
+void Frame::setBin(const std::string& bin) { }
+void Frame::setHex(const std::string& hex) { }
+
 void Frame::initUi() {
     auto* inputResultSizer = new wxBoxSizer(wxVERTICAL);
     resultBox_->Add(resultLabel1_, 0, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding_);
@@ -33,8 +36,10 @@ void Frame::initUi() {
     inputResultSizer->Add(resultBox_, 1, wxEXPAND | wxALL, defaultPadding_);
 
     auto* saveClearSizer = new wxBoxSizer(wxVERTICAL);
-    saveClearSizer->Add(buttonSave_, 1, wxEXPAND);
-    saveClearSizer->Add(buttonClear_, 1, wxEXPAND);
+    wxButton* buttonSave {new wxButton(this, wxID_ANY, "Save")};
+    wxButton* buttonClear {new wxButton(this, IDButton_Clear, "Clear")};
+    saveClearSizer->Add(buttonSave, 1, wxEXPAND);
+    saveClearSizer->Add(buttonClear, 1, wxEXPAND);
     baseSelectionBox_->Add(RButtonDec_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding_);
     baseSelectionBox_->Add(RButtonBin_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding_);
     baseSelectionBox_->Add(RButtonHex_, 1, wxALIGN_CENTER_VERTICAL | wxALL, defaultPadding_);

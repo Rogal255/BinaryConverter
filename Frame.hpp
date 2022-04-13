@@ -4,10 +4,15 @@
 #include <wx/listctrl.h>
 #include <wx/radiobut.h>
 #include <wx/wx.h>
+#include "IReceiver.hpp"
 
-class Frame : public wxFrame {
+class Frame : public wxFrame, IReceiver {
 public:
     Frame();
+    ~Frame() override = default;
+    void setDec(const std::string& dec) override;
+    void setBin(const std::string& bin) override;
+    void setHex(const std::string& hex) override;
 
 private:
     const int defaultPadding_ {10};
@@ -23,9 +28,6 @@ private:
     wxRadioButton* RButtonDec_ {new wxRadioButton(baseSelectionBox_->GetStaticBox(), IDRadioButton_Dec, "Dec")};
     wxRadioButton* RButtonBin_ {new wxRadioButton(baseSelectionBox_->GetStaticBox(), IDRadioButton_Bin, "Bin")};
     wxRadioButton* RButtonHex_ {new wxRadioButton(baseSelectionBox_->GetStaticBox(), IDRadioButton_Hex, "Hex")};
-
-    wxButton* buttonSave_ {new wxButton(this, wxID_ANY, "Save")};
-    wxButton* buttonClear_ {new wxButton(this, IDButton_Clear, "Clear")};
 
     wxButton* button0_ {new wxButton(this, IDButton_0, "0", wxDefaultPosition, wxSize(50, 50))};
     wxButton* button1_ {new wxButton(this, IDButton_1, "1", wxDefaultPosition, wxSize(50, 50))};
