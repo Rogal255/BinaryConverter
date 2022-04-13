@@ -1,5 +1,4 @@
 #pragma once
-#include <cstdlib>
 #include <wx/wx.h>
 
 constexpr char decPrefix[] {""};

@@ -1,10 +1,11 @@
 #include "Converter.hpp"
 #include "Helpers.hpp"
+#include "IReceiver.hpp"
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
 #include <string>
-#include "IReceiver.hpp"
+#include <cstdlib>
 
 Converter::Converter(IReceiver* frontend) : frontend_ {frontend} { }
 void Converter::setFrontend(IReceiver* frontend) { frontend_ = frontend; }
@@ -33,7 +34,7 @@ std::string Converter::decToBase(const std::string& input, const uint8_t base) {
     if (!Converter::baseValidator(base)) {
         throw std::invalid_argument("Converter::decToBase -> wrong base");
     }
-    unsigned long long number {std::stoull(input.substr(myFunc::strlen(decPrefix)))};
+    uint64_t number {std::stoull(input.substr(myFunc::strlen(decPrefix)))};
     uint8_t reminder {0};
     std::string result;
     while (number > 0) {
@@ -50,6 +51,9 @@ std::string Converter::decToBase(const std::string& input, const uint8_t base) {
     std::reverse(prefix.begin(), prefix.end());
     result.append(prefix);
     std::reverse(result.begin(), result.end());
+    if (result.size() == prefix.size()) {
+        result.append("0");
+    }
     return result;
 }
 
@@ -57,22 +61,18 @@ std::string Converter::baseToDec(const std::string& input, const uint8_t base) {
     if (!baseValidator(base)) {
         throw std::invalid_argument("Converter::baseToDec -> wrong base");
     }
-    std::string result;
     std::string rawInput;
     if (base == binBase) {
         rawInput = input.substr(myFunc::strlen(binPrefix));
-        result = binPrefix;
     } else {
         rawInput = input.substr(myFunc::strlen(hexPrefix));
-        result = hexPrefix;
     }
-    std::size_t result_num {0};
+    uint64_t result {0};
     for (std::size_t i {0}; i < rawInput.size(); ++i) {
         uint8_t num = std::distance(hexMap.cbegin(), std::find(hexMap.cbegin(), hexMap.cend(), rawInput[i]));
-        result_num += num * static_cast<std::size_t>(std::pow(base, rawInput.size() - 1 - i));
+        result += num * static_cast<uint64_t>(std::pow(base, rawInput.size() - 1 - i));
     }
-    result.append(std::to_string(result_num));
-    return result;
+    return std::to_string(result);
 }
 
 constexpr bool Converter::baseValidator(uint8_t base) { return base == binBase || base == hexBase; }
