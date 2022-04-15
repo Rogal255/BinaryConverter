@@ -2,16 +2,17 @@
 
 #include <array>
 #include <string>
+#include "IConverter.hpp"
 
 class IReceiver;
 
-class Converter {
+class Converter : public IConverter {
 public:
     Converter() = default;
     explicit Converter(IReceiver* frontend);
     void setFrontend(IReceiver* frontend);
 
-    void convert(const std::string& input);
+    void convert(const std::string& input) override;
 
 private:
     static std::string decToBase(const std::string& input, uint8_t base);

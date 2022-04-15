@@ -6,10 +6,13 @@
 #include <wx/wx.h>
 #include "IReceiver.hpp"
 
-class Frame : public wxFrame, IReceiver {
+class IConverter;
+
+class Frame : public wxFrame, public IReceiver {
 public:
     Frame();
     ~Frame() override = default;
+    void setBackend(IConverter* backend);
     void setDec(const std::string& dec) override;
     void setBin(const std::string& bin) override;
     void setHex(const std::string& hex) override;
@@ -49,9 +52,11 @@ private:
     wxBoxSizer* resultsSizer_ = new wxBoxSizer(wxHORIZONTAL);
     wxListView* listResult_ {new wxListView(this, IDListResult)};
 
+    IConverter* backend_ {nullptr};
     std::string inputStr_;
     std::string resultStr1_;
     std::string resultStr2_;
+    void calculate();
 
     void onBaseChanged(wxCommandEvent& evt);
     void onButtonPressed(wxCommandEvent& evt);

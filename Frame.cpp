@@ -4,6 +4,7 @@
 #pragma ide diagnostic ignored "bugprone-suspicious-enum-usage"
 
 #include "Frame.hpp"
+#include "IConverter.hpp"
 #include <string>
 #include <wx/listctrl.h>
 #include <wx/wx.h>
@@ -22,9 +23,36 @@ Frame::Frame() :
     Bind(wxEVT_SIZE, &Frame::onResize, this);
 }
 
-void Frame::setDec(const std::string& dec) { }
-void Frame::setBin(const std::string& bin) { }
-void Frame::setHex(const std::string& hex) { }
+void Frame::setBackend(IConverter* backend) { backend_ = backend; }
+
+void Frame::setDec(const std::string& dec) {
+    if (RButtonBin_->GetValue() || RButtonHex_->GetValue()) {
+        resultStr1_ = dec;
+        result1_->Clear();
+        result1_->AppendText(resultStr1_);
+    }
+}
+
+void Frame::setBin(const std::string& bin) {
+    if (RButtonDec_->GetValue()) {
+        resultStr1_ = bin;
+        result1_->Clear();
+        result1_->AppendText(resultStr1_);
+    }
+    if (RButtonHex_->GetValue()) {
+        resultStr2_ = bin;
+        result2_->Clear();
+        result2_->AppendText(resultStr2_);
+    }
+}
+
+void Frame::setHex(const std::string& hex) {
+    if (RButtonDec_->GetValue() || RButtonBin_->GetValue()) {
+        resultStr2_ = hex;
+        result2_->Clear();
+        result2_->AppendText(resultStr2_);
+    }
+}
 
 void Frame::initUi() {
     auto* inputResultSizer = new wxBoxSizer(wxVERTICAL);
@@ -90,6 +118,8 @@ void Frame::initUi() {
     reset();
 }
 
+void Frame::calculate() { backend_->convert(inputStr_); }
+
 void Frame::onBaseChanged(wxCommandEvent& evt) {
     switch (evt.GetId()) {
     case IDRadioButton_Dec:
@@ -116,6 +146,7 @@ void Frame::onButtonPressed(wxCommandEvent& evt) {
     inputStr_.append(buttonLabel);
     inputTextCtrl_->Clear();
     inputTextCtrl_->AppendText(inputStr_);
+    this->calculate();
 }
 
 void Frame::onClearButtonPressed(wxCommandEvent& evt) { reset(); }

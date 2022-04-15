@@ -2,6 +2,7 @@
 #include <wx/wx.h>
 
 class Frame;
+class Converter;
 
 class App : public wxApp {
 public:
@@ -9,4 +10,5 @@ public:
 
 private:
     Frame* frame {nullptr};
+    Converter* converter {nullptr};
 };
