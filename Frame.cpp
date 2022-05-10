@@ -5,6 +5,7 @@
 
 #include "Frame.hpp"
 #include "IConverter.hpp"
+#include <algorithm>
 #include <string>
 #include <wx/listctrl.h>
 #include <wx/wx.h>
@@ -21,6 +22,7 @@ Frame::Frame() :
     Bind(wxEVT_BUTTON, &Frame::onButtonPressed, this, IDButton_0, IDButton_F);
     Bind(wxEVT_BUTTON, &Frame::onClearButtonPressed, this, IDButton_Clear);
     Bind(wxEVT_SIZE, &Frame::onResize, this);
+    Bind(wxEVT_CHAR_HOOK, &Frame::onKeyPressed, this);
 }
 
 void Frame::setBackend(IConverter* backend) { backend_ = backend; }
@@ -140,14 +142,12 @@ void Frame::onBaseChanged(wxCommandEvent& evt) {
 
 void Frame::onButtonPressed(wxCommandEvent& evt) {
     std::string buttonLabel {dynamic_cast<wxButton*>(evt.GetEventObject())->GetLabel()};
-    if (buttonLabel == "0" && (inputStr_ == decPrefix || inputStr_ == binPrefix || inputStr_ == hexPrefix)) {
-        return;
+    if (buttonLabel.size() == 1) {
+        handleInput(buttonLabel[0]);
     }
-    inputStr_.append(buttonLabel);
-    inputTextCtrl_->Clear();
-    inputTextCtrl_->AppendText(inputStr_);
-    this->calculate();
 }
+
+void Frame::onKeyPressed(wxKeyEvent& evt) { handleInput(static_cast<char>(evt.GetUnicodeKey())); }
 
 void Frame::onClearButtonPressed(wxCommandEvent& evt) { reset(); }
 
@@ -157,6 +157,31 @@ void Frame::onResize(wxSizeEvent& evt) {
     listResult_->SetColumnWidth(1, (listResultWidth / 3) + 80);
     listResult_->SetColumnWidth(2, (listResultWidth / 3) - 40);
     evt.Skip();
+}
+
+void Frame::handleInput(char input) {
+    if (RButtonBin_->GetValue()) {
+        if (std::find(binChars.cbegin(), binChars.cend(), input) == binChars.cend()) {
+            return;
+        }
+    }
+    if (RButtonDec_->GetValue()) {
+        if (std::find(decChars.cbegin(), decChars.cend(), input) == decChars.cend()) {
+            return;
+        }
+    }
+    if (RButtonHex_->GetValue()) {
+        if (std::find(hexChars.cbegin(), hexChars.cend(), input) == hexChars.cend()) {
+            return;
+        }
+    }
+    if (input == '0' && (inputStr_ == decPrefix || inputStr_ == binPrefix || inputStr_ == hexPrefix)) {
+        return;
+    }
+    inputStr_.append(&input);
+    inputTextCtrl_->Clear();
+    inputTextCtrl_->AppendText(inputStr_);
+    this->calculate();
 }
 
 void Frame::decSelected() {

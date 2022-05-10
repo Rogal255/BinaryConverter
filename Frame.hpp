@@ -1,10 +1,11 @@
 #pragma once
 #include "Helpers.hpp"
+#include "IReceiver.hpp"
+#include <array>
 #include <string>
 #include <wx/listctrl.h>
 #include <wx/radiobut.h>
 #include <wx/wx.h>
-#include "IReceiver.hpp"
 
 class IConverter;
 
@@ -60,12 +61,18 @@ private:
 
     void onBaseChanged(wxCommandEvent& evt);
     void onButtonPressed(wxCommandEvent& evt);
+    void onKeyPressed(wxKeyEvent& evt);
     void onClearButtonPressed(wxCommandEvent& evt);
     void onResize(wxSizeEvent& evt);
 
     void initUi();
+    void handleInput(char input);
     void decSelected();
     void binSelected();
     void hexSelected();
     void reset();
+    constexpr static std::array<const char, 2> binChars {'0', '1'};
+    constexpr static std::array<const char, 10> decChars {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    constexpr static std::array<const char, 16>
+        hexChars {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 };
