@@ -147,7 +147,16 @@ void Frame::onButtonPressed(wxCommandEvent& evt) {
     }
 }
 
-void Frame::onKeyPressed(wxKeyEvent& evt) { handleInput(static_cast<char>(evt.GetUnicodeKey())); }
+void Frame::onKeyPressed(wxKeyEvent& evt) {
+    static constexpr uint32_t numpadZero {96};
+    static constexpr uint32_t asciiZero {48};
+    uint32_t rawKeyCode {evt.GetRawKeyCode() - numpadZero};
+    if (rawKeyCode >= 0 && rawKeyCode < 10) {
+        handleInput(static_cast<char>(rawKeyCode + asciiZero));
+        return;
+    }
+    handleInput(static_cast<char>(evt.GetUnicodeKey()));
+}
 
 void Frame::onClearButtonPressed(wxCommandEvent& evt) { reset(); }
 
