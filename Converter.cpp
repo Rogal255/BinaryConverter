@@ -3,9 +3,9 @@
 #include "IReceiver.hpp"
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <stdexcept>
 #include <string>
-#include <cstdlib>
 
 Converter::Converter(IReceiver* frontend) : frontend_ {frontend} { }
 void Converter::setFrontend(IReceiver* frontend) { frontend_ = frontend; }
@@ -34,7 +34,10 @@ std::string Converter::decToBase(const std::string& input, const uint8_t base) {
     if (!Converter::baseValidator(base)) {
         throw std::invalid_argument("Converter::decToBase -> wrong base");
     }
-    uint64_t number {std::stoull(input.substr(myFunc::strlen(decPrefix)))};
+    uint64_t number {0};
+    try {
+        number = std::stoull(input.substr(myFunc::strlen(decPrefix)));
+    } catch (...) { return "std::stoull error"; }
     uint8_t reminder {0};
     std::string result;
     while (number > 0) {
@@ -69,8 +72,13 @@ std::string Converter::baseToDec(const std::string& input, const uint8_t base) {
     }
     uint64_t result {0};
     for (std::size_t i {0}; i < rawInput.size(); ++i) {
-        uint8_t num = std::distance(hexMap.cbegin(), std::find(hexMap.cbegin(), hexMap.cend(), rawInput[i]));
-        result += num * static_cast<uint64_t>(std::pow(base, rawInput.size() - 1 - i));
+        uint64_t partialRes = std::distance(hexMap.cbegin(), std::find(hexMap.cbegin(), hexMap.cend(), rawInput[i]));
+        partialRes *= static_cast<uint64_t>(std::pow(base, rawInput.size() - 1 - i));
+        const uint64_t diff = uint64_MAX - partialRes;
+        if (result > diff) {
+            return "baseToDec overflow";
+        }
+        result += partialRes;
     }
     return std::to_string(result);
 }
