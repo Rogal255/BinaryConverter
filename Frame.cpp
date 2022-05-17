@@ -186,7 +186,7 @@ void Frame::handleInput(char input) {
     if (input == '0' && (inputStr_ == decPrefix || inputStr_ == binPrefix || inputStr_ == hexPrefix)) {
         return;
     }
-    inputStr_.append(&input);
+    inputStr_.append(1, input);
     inputTextCtrl_->Clear();
     inputTextCtrl_->AppendText(inputStr_);
     this->calculate();
