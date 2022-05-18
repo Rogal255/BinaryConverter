@@ -4,40 +4,66 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <optional>
 #include <stdexcept>
 #include <string>
 
 Converter::Converter(IReceiver* frontend) : frontend_ {frontend} { }
 void Converter::setFrontend(IReceiver* frontend) { frontend_ = frontend; }
 
-void Converter::convert(const std::string& input) {
+bool Converter::convert(const std::string& input) {
     if (inputHexValidator(input)) {
-        std::string dec = baseToDec(input, hexBase);
-        frontend_->setDec(dec);
-        frontend_->setBin(decToBase(dec, binBase));
-        return;
+        std::optional<std::string> dec = baseToDec(input, hexBase);
+        if (dec) {
+            frontend_->setDec(*dec);
+        } else {
+            return false;
+        }
+        if (std::optional<std::string> bin = decToBase(*dec, binBase)) {
+            frontend_->setBin(*bin);
+        } else {
+            return false;
+        }
+        return true;
     }
     if (inputBinValidator(input)) {
-        std::string dec = baseToDec(input, binBase);
-        frontend_->setDec(dec);
-        frontend_->setHex(decToBase(dec, hexBase));
-        return;
+        std::optional<std::string> dec = baseToDec(input, binBase);
+        if (dec) {
+            frontend_->setDec(*dec);
+        } else {
+            return false;
+        }
+        if (std::optional<std::string> hex = decToBase(*dec, hexBase)) {
+            frontend_->setHex(*hex);
+        } else {
+            return false;
+        }
+        return true;
     }
     if (inputDecValidator(input)) {
-        frontend_->setBin(decToBase(input, binBase));
-        frontend_->setHex(decToBase(input, hexBase));
-        return;
+        if (std::optional<std::string> bin = decToBase(input, binBase)) {
+            frontend_->setBin(*bin);
+        } else {
+            return false;
+        }
+        if (std::optional<std::string> hex = decToBase(input, hexBase)) {
+            frontend_->setHex(*hex);
+        } else {
+            return false;
+        }
+        return true;
     }
+    return false;
 }
 
-std::string Converter::decToBase(const std::string& input, const uint8_t base) {
+std::optional<std::string> Converter::decToBase(const std::string& input, const uint8_t base) {
     if (!Converter::baseValidator(base)) {
-        throw std::invalid_argument("Converter::decToBase -> wrong base");
+        return std::nullopt;
     }
     uint64_t number {0};
     try {
         number = std::stoull(input.substr(myFunc::strlen(decPrefix)));
-    } catch (...) { return "std::stoull error"; }
+    } catch (...) { return std::nullopt; }
     uint8_t reminder {0};
     std::string result;
     while (number > 0) {
@@ -60,9 +86,9 @@ std::string Converter::decToBase(const std::string& input, const uint8_t base) {
     return result;
 }
 
-std::string Converter::baseToDec(const std::string& input, const uint8_t base) {
+std::optional<std::string> Converter::baseToDec(const std::string& input, const uint8_t base) {
     if (!baseValidator(base)) {
-        throw std::invalid_argument("Converter::baseToDec -> wrong base");
+        return std::nullopt;
     }
     std::string rawInput;
     if (base == binBase) {
@@ -76,7 +102,7 @@ std::string Converter::baseToDec(const std::string& input, const uint8_t base) {
         partialRes *= static_cast<uint64_t>(std::pow(base, rawInput.size() - 1 - i));
         const uint64_t diff = uint64_MAX - partialRes;
         if (result > diff) {
-            return "baseToDec overflow";
+            return std::nullopt;
         }
         result += partialRes;
     }

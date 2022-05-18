@@ -2,6 +2,7 @@
 
 #include <array>
 #include <string>
+#include <optional>
 #include "IConverter.hpp"
 
 class IReceiver;
@@ -12,11 +13,11 @@ public:
     explicit Converter(IReceiver* frontend);
     void setFrontend(IReceiver* frontend);
 
-    void convert(const std::string& input) override;
+    bool convert(const std::string& input) override;
 
 private:
-    static std::string decToBase(const std::string& input, uint8_t base);
-    static std::string baseToDec(const std::string& input, uint8_t base);
+    static std::optional<std::string> decToBase(const std::string& input, uint8_t base);
+    static std::optional<std::string> baseToDec(const std::string& input, uint8_t base);
     IReceiver* frontend_ {nullptr};
 
     constexpr static bool baseValidator(uint8_t base);

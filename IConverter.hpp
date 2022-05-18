@@ -3,5 +3,5 @@
 
 class IConverter {
 public:
-    virtual void convert(const std::string&) = 0;
+    virtual bool convert(const std::string&) = 0;
 };

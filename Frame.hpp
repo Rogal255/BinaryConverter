@@ -57,7 +57,6 @@ private:
     std::string inputStr_;
     std::string resultStr1_;
     std::string resultStr2_;
-    void calculate();
 
     void onBaseChanged(wxCommandEvent& evt);
     void onButtonPressed(wxCommandEvent& evt);

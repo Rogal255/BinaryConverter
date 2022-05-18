@@ -120,8 +120,6 @@ void Frame::initUi() {
     reset();
 }
 
-void Frame::calculate() { backend_->convert(inputStr_); }
-
 void Frame::onBaseChanged(wxCommandEvent& evt) {
     switch (evt.GetId()) {
     case IDRadioButton_Dec:
@@ -186,10 +184,11 @@ void Frame::handleInput(char input) {
     if (input == '0' && (inputStr_ == decPrefix || inputStr_ == binPrefix || inputStr_ == hexPrefix)) {
         return;
     }
-    inputStr_.append(1, input);
-    inputTextCtrl_->Clear();
-    inputTextCtrl_->AppendText(inputStr_);
-    this->calculate();
+    if (backend_->convert(inputStr_ + input)) {
+        inputStr_.append(1, input);
+        inputTextCtrl_->Clear();
+        inputTextCtrl_->AppendText(inputStr_);
+    }
 }
 
 void Frame::decSelected() {
