@@ -93,8 +93,14 @@ std::optional<std::string> Converter::baseToDec(const std::string& input, const 
     std::string rawInput;
     if (base == binBase) {
         rawInput = input.substr(myFunc::strlen(binPrefix));
+        if (rawInput.size() > static_cast<unsigned long>(std::log2(uint64_MAX))) {
+            return std::nullopt;
+        }
     } else {
         rawInput = input.substr(myFunc::strlen(hexPrefix));
+        if (rawInput.size() > static_cast<unsigned long>(std::log2(uint64_MAX) / 4)) {
+            return std::nullopt;
+        }
     }
     uint64_t result {0};
     for (std::size_t i {0}; i < rawInput.size(); ++i) {

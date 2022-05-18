@@ -43,3 +43,17 @@ TEST_F(ConverterUnitTests, hexInput) {
         ASSERT_EQ(frontend.resultBin, arr[1]);
     }
 }
+
+TEST(ConverterOverflowTest, tooBigInput) {
+    DummyFrontend frontend;
+    Converter converter {&frontend};
+    std::array<std::array<std::string, 3>, 1> data {
+        {{"18446744073709551616",
+          "0b10000000000000000000000000000000000000000000000000000000000000000",
+          "0x10000000000000000"}}};
+    for (unsigned long i {0}; i < data.size(); ++i) {
+        for (uint8_t input {0}; input < static_cast<uint8_t>(data[i].size()); ++input) {
+            EXPECT_FALSE(converter.convert(data[i][input]));
+        }
+    }
+}
