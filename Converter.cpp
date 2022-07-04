@@ -3,9 +3,8 @@
 #include "IReceiver.hpp"
 #include <algorithm>
 #include <cmath>
-#include <cstdlib>
+#include <cstdint>
 #include <optional>
-#include <stdexcept>
 #include <string>
 
 Converter::Converter(IReceiver* frontend) : frontend_ {frontend} { }
@@ -63,7 +62,7 @@ std::optional<std::string> Converter::decToBase(const std::string& input, const 
     uint64_t number {0};
     try {
         number = std::stoull(input.substr(myFunc::strlen(decPrefix)));
-    } catch (...) { return std::nullopt; }
+    } catch (const std::out_of_range&) { return std::nullopt; }
     uint8_t reminder {0};
     std::string result;
     while (number > 0) {

@@ -23,6 +23,7 @@ enum myID {
     IDRadioButton_Bin,
     IDRadioButton_Hex,
     IDButton_Clear,
+    IDButton_Save,
     IDButton_0,
     IDButton_1,
     IDButton_2,

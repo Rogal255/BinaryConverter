@@ -21,6 +21,7 @@ Frame::Frame() :
     Bind(wxEVT_RADIOBUTTON, &Frame::onBaseChanged, this, IDRadioButton_Dec, IDRadioButton_Hex);
     Bind(wxEVT_BUTTON, &Frame::onButtonPressed, this, IDButton_0, IDButton_F);
     Bind(wxEVT_BUTTON, &Frame::onClearButtonPressed, this, IDButton_Clear);
+    Bind(wxEVT_BUTTON, &Frame::onSaveButtonPressed, this, IDButton_Save);
     Bind(wxEVT_SIZE, &Frame::onResize, this);
     Bind(wxEVT_CHAR_HOOK, &Frame::onKeyPressed, this);
 }
@@ -66,7 +67,7 @@ void Frame::initUi() {
     inputResultSizer->Add(resultBox_, 1, wxEXPAND | wxALL, defaultPadding_);
 
     auto* saveClearSizer = new wxBoxSizer(wxVERTICAL);
-    wxButton* buttonSave {new wxButton(this, wxID_ANY, "Save")};
+    wxButton* buttonSave {new wxButton(this, IDButton_Save, "Save")};
     wxButton* buttonClear {new wxButton(this, IDButton_Clear, "Clear")};
     saveClearSizer->Add(buttonSave, 1, wxEXPAND);
     saveClearSizer->Add(buttonClear, 1, wxEXPAND);
@@ -156,6 +157,8 @@ void Frame::onKeyPressed(wxKeyEvent& evt) {
 }
 
 void Frame::onClearButtonPressed(wxCommandEvent& evt) { reset(); }
+
+void Frame::onSaveButtonPressed(wxCommandEvent& evt) { wxMessageBox("Save button pressed"); }
 
 void Frame::onResize(wxSizeEvent& evt) {
     int listResultWidth {resultsSizer_->GetSize().GetWidth() - 2 * defaultPadding_};

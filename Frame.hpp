@@ -62,6 +62,7 @@ private:
     void onButtonPressed(wxCommandEvent& evt);
     void onKeyPressed(wxKeyEvent& evt);
     void onClearButtonPressed(wxCommandEvent& evt);
+    void onSaveButtonPressed(wxCommandEvent& evt);
     void onResize(wxSizeEvent& evt);
 
     void initUi();
