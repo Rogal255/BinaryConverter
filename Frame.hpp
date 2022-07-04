@@ -71,6 +71,10 @@ private:
     void binSelected();
     void hexSelected();
     void reset();
+    void convert(const std::string& toConvert);
+    std::string getDec();
+    std::string getBin();
+    std::string getHex();
     constexpr static std::array<const char, 2> binChars {'0', '1'};
     constexpr static std::array<const char, 10> decChars {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     constexpr static std::array<const char, 16>

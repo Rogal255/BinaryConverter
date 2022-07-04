@@ -4,6 +4,7 @@
 #pragma ide diagnostic ignored "bugprone-suspicious-enum-usage"
 
 #include "Frame.hpp"
+#include "Helpers.hpp"
 #include "IConverter.hpp"
 #include <algorithm>
 #include <string>
@@ -107,13 +108,9 @@ void Frame::initUi() {
     mainSizer->Add(resultsSizer_, 1, wxEXPAND);
     this->SetSizerAndFit(mainSizer);
 
-    int listResultWidth {resultsSizer_->GetSize().GetWidth() - 2 * defaultPadding_};
-    listResult_->AppendColumn("Dec", wxLIST_FORMAT_LEFT, (listResultWidth / 3) - 40);
-    listResult_->AppendColumn("Bin", wxLIST_FORMAT_CENTER, (listResultWidth / 3) + 80);
-    listResult_->AppendColumn("Hex", wxLIST_FORMAT_RIGHT, (listResultWidth / 3) - 40);
-    listResult_->InsertItem(0, "123");
-    listResult_->SetItem(0, 1, "0b1111011");
-    listResult_->SetItem(0, 2, "0x7B");
+    listResult_->AppendColumn("Dec", wxLIST_FORMAT_LEFT);
+    listResult_->AppendColumn("Bin", wxLIST_FORMAT_CENTER);
+    listResult_->AppendColumn("Hex", wxLIST_FORMAT_RIGHT);
 
     wxFont myFont = inputTextCtrl_->GetFont();
     myFont.SetPointSize(30);
@@ -148,6 +145,11 @@ void Frame::onButtonPressed(wxCommandEvent& evt) {
 
 void Frame::onKeyPressed(wxKeyEvent& evt) {
     static constexpr uint32_t asciiZero {48};
+    if (evt.GetKeyCode() == WXK_BACK) {
+        inputStr_.pop_back();
+        convert(inputStr_);
+        return;
+    }
     uint32_t numKey {evt.GetKeyCode() - static_cast<uint32_t>(WXK_NUMPAD0)};
     if (numKey >= 0 && numKey < 10) {
         handleInput(static_cast<char>(numKey + asciiZero));
@@ -158,7 +160,23 @@ void Frame::onKeyPressed(wxKeyEvent& evt) {
 
 void Frame::onClearButtonPressed(wxCommandEvent& evt) { reset(); }
 
-void Frame::onSaveButtonPressed(wxCommandEvent& evt) { wxMessageBox("Save button pressed"); }
+void Frame::onSaveButtonPressed(wxCommandEvent& evt) {
+    std::string dec = getDec();
+    std::string bin = getBin();
+    std::string hex = getHex();
+    if (dec == decPrefix) {
+        dec.append("0");
+    }
+    if (bin == binPrefix) {
+        bin.append("0");
+    }
+    if (hex == hexPrefix) {
+        hex.append("0");
+    }
+    listResult_->InsertItem(0, dec);
+    listResult_->SetItem(0, 1, bin);
+    listResult_->SetItem(0, 2, hex);
+}
 
 void Frame::onResize(wxSizeEvent& evt) {
     int listResultWidth {resultsSizer_->GetSize().GetWidth() - 2 * defaultPadding_};
@@ -187,11 +205,7 @@ void Frame::handleInput(char input) {
     if (input == '0' && (inputStr_ == decPrefix || inputStr_ == binPrefix || inputStr_ == hexPrefix)) {
         return;
     }
-    if (backend_->convert(inputStr_ + input)) {
-        inputStr_.append(1, input);
-        inputTextCtrl_->Clear();
-        inputTextCtrl_->AppendText(inputStr_);
-    }
+    convert(inputStr_ + input);
 }
 
 void Frame::decSelected() {
@@ -276,6 +290,38 @@ void Frame::reset() {
     result1_->AppendText(resultStr1_);
     result2_->Clear();
     result2_->AppendText(resultStr2_);
+}
+
+void Frame::convert(const std::string& toConvert) {
+    if (backend_->convert(toConvert)) {
+        inputStr_ = toConvert;
+        inputTextCtrl_->Clear();
+        inputTextCtrl_->AppendText(inputStr_);
+    }
+}
+
+std::string Frame::getDec() {
+    if (RButtonBin_->GetValue() || RButtonHex_->GetValue()) {
+        return resultStr1_;
+    }
+    return inputTextCtrl_->GetLineText(0);
+}
+
+std::string Frame::getBin() {
+    if (RButtonDec_->GetValue()) {
+        return resultStr1_;
+    }
+    if (RButtonHex_->GetValue()) {
+        return resultStr2_;
+    }
+    return inputTextCtrl_->GetLineText(0);
+}
+
+std::string Frame::getHex() {
+    if (RButtonDec_->GetValue() || RButtonBin_->GetValue()) {
+        return resultStr2_;
+    }
+    return inputTextCtrl_->GetLineText(0);
 }
 
 #pragma clang diagnostic pop
