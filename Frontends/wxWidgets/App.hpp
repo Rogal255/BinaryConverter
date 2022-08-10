@@ -1,8 +1,8 @@
 #pragma once
-#include "Converter.hpp"
+#include "../../Backend.hpp"
 #include "Frame.hpp"
+#include "wx/wx.h"
 #include <memory>
-#include <wx/wx.h>
 
 class App : public wxApp {
 public:
@@ -10,5 +10,5 @@ public:
 
 private:
     Frame* frame {nullptr};
-    std::unique_ptr<Converter> converter {nullptr};
+    std::unique_ptr<Backend> converter {nullptr};
 };

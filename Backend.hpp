@@ -1,24 +1,24 @@
 #pragma once
 
+#include "IBackend.hpp"
 #include <array>
-#include <string>
 #include <optional>
-#include "IConverter.hpp"
+#include <string>
 
-class IReceiver;
+class IFrontend;
 
-class Converter : public IConverter {
+class Backend : public IBackend {
 public:
-    Converter() = default;
-    explicit Converter(IReceiver* frontend);
-    void setFrontend(IReceiver* frontend);
+    Backend() = default;
+    explicit Backend(IFrontend* frontend);
+    void setFrontend(IFrontend* frontend);
 
     bool convert(const std::string& input) override;
 
 private:
     static std::optional<std::string> decToBase(const std::string& input, uint8_t base);
     static std::optional<std::string> baseToDec(const std::string& input, uint8_t base);
-    IReceiver* frontend_ {nullptr};
+    IFrontend* frontend_ {nullptr};
 
     constexpr static bool baseValidator(uint8_t base);
     constexpr static std::array<const char, 16>

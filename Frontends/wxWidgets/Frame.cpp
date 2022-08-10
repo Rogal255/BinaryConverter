@@ -4,12 +4,12 @@
 #pragma ide diagnostic ignored "bugprone-suspicious-enum-usage"
 
 #include "Frame.hpp"
-#include "Helpers.hpp"
-#include "IConverter.hpp"
+#include "../../Helpers.hpp"
+#include "../../IBackend.hpp"
+#include "wx/listctrl.h"
+#include "wx/wx.h"
 #include <algorithm>
 #include <string>
-#include <wx/listctrl.h>
-#include <wx/wx.h>
 
 Frame::Frame() :
     wxFrame(nullptr,
@@ -27,7 +27,7 @@ Frame::Frame() :
     Bind(wxEVT_CHAR_HOOK, &Frame::onKeyPressed, this);
 }
 
-void Frame::setBackend(IConverter* backend) { backend_ = backend; }
+void Frame::setBackend(IBackend* backend) { backend_ = backend; }
 
 void Frame::setDec(const std::string& dec) {
     if (RButtonBin_->GetValue() || RButtonHex_->GetValue()) {

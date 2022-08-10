@@ -1,16 +1,16 @@
-#include "Converter.hpp"
+#include "Backend.hpp"
 #include "Helpers.hpp"
-#include "IReceiver.hpp"
+#include "IFrontend.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
 #include <optional>
 #include <string>
 
-Converter::Converter(IReceiver* frontend) : frontend_ {frontend} { }
-void Converter::setFrontend(IReceiver* frontend) { frontend_ = frontend; }
+Backend::Backend(IFrontend* frontend) : frontend_ {frontend} { }
+void Backend::setFrontend(IFrontend* frontend) { frontend_ = frontend; }
 
-bool Converter::convert(const std::string& input) {
+bool Backend::convert(const std::string& input) {
     if (inputHexValidator(input)) {
         std::optional<std::string> dec = baseToDec(input, hexBase);
         if (dec) {
@@ -55,8 +55,8 @@ bool Converter::convert(const std::string& input) {
     return false;
 }
 
-std::optional<std::string> Converter::decToBase(const std::string& input, const uint8_t base) {
-    if (!Converter::baseValidator(base)) {
+std::optional<std::string> Backend::decToBase(const std::string& input, const uint8_t base) {
+    if (!Backend::baseValidator(base)) {
         return std::nullopt;
     }
     uint64_t number {0};
@@ -85,7 +85,7 @@ std::optional<std::string> Converter::decToBase(const std::string& input, const 
     return result;
 }
 
-std::optional<std::string> Converter::baseToDec(const std::string& input, const uint8_t base) {
+std::optional<std::string> Backend::baseToDec(const std::string& input, const uint8_t base) {
     if (!baseValidator(base)) {
         return std::nullopt;
     }
@@ -114,9 +114,9 @@ std::optional<std::string> Converter::baseToDec(const std::string& input, const 
     return std::to_string(result);
 }
 
-constexpr bool Converter::baseValidator(uint8_t base) { return base == binBase || base == hexBase; }
+constexpr bool Backend::baseValidator(uint8_t base) { return base == binBase || base == hexBase; }
 
-bool Converter::inputDecValidator(const std::string& input) {
+bool Backend::inputDecValidator(const std::string& input) {
     if constexpr (myFunc::strlen(decPrefix)) {
         if (input.substr(0, myFunc::strlen(decPrefix)) != decPrefix) {
             return false;
@@ -128,7 +128,7 @@ bool Converter::inputDecValidator(const std::string& input) {
     return true;
 }
 
-bool Converter::inputBinValidator(const std::string& input) {
+bool Backend::inputBinValidator(const std::string& input) {
     if (input.size() < myFunc::strlen(binPrefix)) {
         return false;
     }
@@ -143,7 +143,7 @@ bool Converter::inputBinValidator(const std::string& input) {
     return true;
 }
 
-bool Converter::inputHexValidator(const std::string& input) {
+bool Backend::inputHexValidator(const std::string& input) {
     if (input.size() < myFunc::strlen(hexPrefix)) {
         return false;
     }

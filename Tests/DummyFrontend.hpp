@@ -1,7 +1,7 @@
-#include "../IReceiver.hpp"
+#include "../IFrontend.hpp"
 #include <string>
 
-class DummyFrontend : public IReceiver {
+class DummyFrontend : public IFrontend {
 public:
     ~DummyFrontend() override = default;
     void setDec(const std::string& dec) override { resultDec = dec; }

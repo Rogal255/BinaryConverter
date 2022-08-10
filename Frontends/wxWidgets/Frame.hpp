@@ -1,19 +1,19 @@
 #pragma once
-#include "Helpers.hpp"
-#include "IReceiver.hpp"
+#include "../../Helpers.hpp"
+#include "../../IFrontend.hpp"
+#include "wx/listctrl.h"
+#include "wx/radiobut.h"
+#include "wx/wx.h"
 #include <array>
 #include <string>
-#include <wx/listctrl.h>
-#include <wx/radiobut.h>
-#include <wx/wx.h>
 
-class IConverter;
+class IBackend;
 
-class Frame : public wxFrame, public IReceiver {
+class Frame : public wxFrame, public IFrontend {
 public:
     Frame();
     ~Frame() override = default;
-    void setBackend(IConverter* backend);
+    void setBackend(IBackend* backend);
     void setDec(const std::string& dec) override;
     void setBin(const std::string& bin) override;
     void setHex(const std::string& hex) override;
@@ -53,7 +53,7 @@ private:
     wxBoxSizer* resultsSizer_ = new wxBoxSizer(wxHORIZONTAL);
     wxListView* listResult_ {new wxListView(this, IDListResult)};
 
-    IConverter* backend_ {nullptr};
+    IBackend* backend_ {nullptr};
     std::string inputStr_;
     std::string resultStr1_;
     std::string resultStr2_;

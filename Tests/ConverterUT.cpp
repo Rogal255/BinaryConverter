@@ -1,4 +1,4 @@
-#include "../Converter.hpp"
+#include "../Backend.hpp"
 #include "DummyFrontend.hpp"
 #include <array>
 #include <gtest/gtest.h>
@@ -6,7 +6,7 @@
 class ConverterUnitTests : public ::testing::Test {
 protected:
     DummyFrontend frontend;
-    Converter converter {&frontend};
+    Backend converter {&frontend};
     std::array<std::array<std::string, 3>, 8> data {
         {{"456", "0b111001000", "0x1C8"},
          {"0", "0b0", "0x0"},
@@ -46,7 +46,7 @@ TEST_F(ConverterUnitTests, hexInput) {
 
 TEST(ConverterOverflowTest, tooBigInput) {
     DummyFrontend frontend;
-    Converter converter {&frontend};
+    Backend converter {&frontend};
     std::array<std::array<std::string, 3>, 1> data {
         {{"18446744073709551616",
           "0b10000000000000000000000000000000000000000000000000000000000000000",
