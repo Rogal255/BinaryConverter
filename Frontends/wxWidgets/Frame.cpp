@@ -146,7 +146,20 @@ void Frame::onButtonPressed(wxCommandEvent& evt) {
 void Frame::onKeyPressed(wxKeyEvent& evt) {
     static constexpr uint32_t asciiZero {48};
     if (evt.GetKeyCode() == WXK_BACK) {
-        inputStr_.pop_back();
+        if (RButtonBin_->GetValue() && inputStr_ == binPrefix) {
+            return;
+        }
+        if (RButtonHex_->GetValue() && inputStr_ == hexPrefix) {
+            return;
+        }
+        if (RButtonDec_->GetValue() && inputStr_ == decPrefix) {
+            return;
+        }
+        if (inputStr_.size() == 1) {
+            inputStr_ = "0";
+        } else {
+            inputStr_.pop_back();
+        }
         convert(inputStr_);
         return;
     }

@@ -11,6 +11,9 @@ Backend::Backend(IFrontend* frontend) : frontend_ {frontend} { }
 void Backend::setFrontend(IFrontend* frontend) { frontend_ = frontend; }
 
 bool Backend::convert(const std::string& input) {
+    if(input.empty()) {
+        return false;
+    }
     if (inputHexValidator(input)) {
         std::optional<std::string> dec = baseToDec(input, hexBase);
         if (dec) {
