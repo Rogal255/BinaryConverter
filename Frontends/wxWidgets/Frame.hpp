@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Helpers.hpp"
 #include "../../IFrontend.hpp"
+#include "Enums.hpp"
 #include "wx/listctrl.h"
 #include "wx/radiobut.h"
 #include "wx/wx.h"
