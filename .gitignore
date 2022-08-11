@@ -1,3 +1,5 @@
 Debug
 Release
+.cppcheck
+Frontends/xtd/reference_guide
 .idea

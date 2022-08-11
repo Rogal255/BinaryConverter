@@ -1,3 +1,5 @@
+#include "wx/wx.h"
+
 enum myID {
     IDRadioButton_Dec = wxID_LAST + 1,
     IDRadioButton_Bin,

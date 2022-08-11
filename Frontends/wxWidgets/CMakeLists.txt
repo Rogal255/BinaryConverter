@@ -1,5 +1,3 @@
-target_sources(${PROJECT_NAME} PRIVATE App.cpp Frame.cpp)
-
 #Set which libs should link to main target
 set(LIBS wxbase wxcore)
 
@@ -13,7 +11,6 @@ set(wxBUILD_PRECOMP OFF CACHE BOOL "Use precompiled headers")
 set(wxBUILD_MONOLITHIC OFF CACHE BOOL "Build a single library")
 set(wxUSE_STL ON)
 
-include(FetchContent)
 Set(FETCHCONTENT_QUIET FALSE)
 FetchContent_Declare(
         wxWidgets
@@ -24,6 +21,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(wxWidgets)
 
+add_executable(${PROJECT_NAME} WIN32 App.cpp Frame.cpp ${BACKEND_SRC})
 add_dependencies(${PROJECT_NAME} ${DEPS}) #Just to delay linking
 if (wxBUILD_SHARED)
     target_compile_definitions(${PROJECT_NAME} PRIVATE WXUSINGDLL=1)

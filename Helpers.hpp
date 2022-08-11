@@ -1,6 +1,6 @@
 #pragma once
-#include <wx/wx.h>
 #include <numeric>
+#include <cstdint>
 
 constexpr char decPrefix[] {""};
 constexpr char binPrefix[] {"0b"};
