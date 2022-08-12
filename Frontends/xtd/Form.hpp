@@ -6,5 +6,6 @@ public:
     Form();
 
 private:
-    xtd::forms::button test_button;
+    xtd::forms::text_box text_box;
+    xtd::forms::vertical_layout_panel panel;
 };
