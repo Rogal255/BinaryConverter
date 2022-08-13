@@ -6,6 +6,10 @@ public:
     Form();
 
 private:
-    xtd::forms::text_box text_box;
-    xtd::forms::vertical_layout_panel panel;
+    xtd::forms::vertical_layout_panel scene_;
+    xtd::forms::vertical_layout_panel inputPanel_;
+    xtd::forms::vertical_layout_panel resultsPanel_;
+
+    xtd::forms::text_box inputBox_;
+    xtd::forms::group_box resultsBox_;
 };
